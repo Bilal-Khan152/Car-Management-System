@@ -37,7 +37,7 @@ function AdminPage() {
       });
     } catch (error) {
       console.error("Error adding car:", error);
-      alert("Failed to add car.");
+      toast.warning("Failed to add car.");
     }
   };
 

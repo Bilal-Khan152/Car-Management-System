@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFirebase } from "../context/Firebase";
 import LoginForm from "../components/LoginForm";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -19,23 +20,23 @@ function LoginPage() {
       const { user, role } = await firebase.signInUser(email, password);
 
       if (!user) {
-        alert("Login failed");
+        toast.warning("Login failed");
         return;
       }
 
       if (!role) {
-        alert("User does not exist in Firestore.");
+        toast.warning("User does not exist in Firestore.");
         return;
       }
 
       if (role === "admin") {
         navigate("/admin");
       } else if (role === "purchaser") {
-        navigate("/newsPost");
+        navigate("/carsForSell");
       } else if (role === "renter") {
         navigate("/renter");
       } else {
-        alert("Access Denied: You are not an admin.");
+        toast.warning("Access Denied: You are not an admin.");
       }
     } catch (error) {
       console.log("error", error);

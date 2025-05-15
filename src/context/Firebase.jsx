@@ -191,10 +191,20 @@ export const FirebaseProvider = (props) => {
     return getDocs(collection(db, "cars"));
   };
 
+ // gets cars data basic on the given id 
+
+  const getCarsCardDataById = async (id) => {
+    const docRef = doc(db , "cars" , id) ;
+    const result = await getDoc(docRef);
+    return result;
+  }
+  
+
+
 
   // to get accepted car from admin which is post by renter 
   
-const getAcceptedRenterCards = async () => {
+   const getAcceptedRenterCards = async () => {
   const renterRef = collection(db, "renter");
   const q = query(renterRef, where("status", "==", "accept"));
   const snapshot = await getDocs(q);
@@ -237,7 +247,7 @@ const fetchNotifications = async () => {
 };
 
 
-
+ // accept renter post and change their status from pending to accept
  const acceptRenterRequest = async (createdAtDate) => {
     const firebaseTimestamp = Timestamp.fromDate(createdAtDate);
     const renterRef = collection(db, "renter");
@@ -272,7 +282,8 @@ const fetchNotifications = async () => {
           signOutUser , 
           fetchNotifications  ,
           acceptRenterRequest , 
-          getAcceptedRenterCards 
+          getAcceptedRenterCards , 
+          getCarsCardDataById 
         }}
       >
         {props.children}

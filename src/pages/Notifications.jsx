@@ -1,31 +1,12 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
-import { useFirebase } from '../context/Firebase';
+ 
 
 
-function Notifications() {
 
-const [notifications , setNotications] = useState([]) ; 
 
-const firebase = useFirebase() ;
+function Notifications({notifications }) {
 
-useEffect(()=>{
-  
-const getNotifications = async () => {
 
-  try {
-    const data  = await firebase.fetchNotifications () ;   
-    setNotications(data) ; 
 
-  } catch (error) {
-    console.log("error fetching notifications" , error)
-  }
-
-} 
-
-getNotifications() ;
-
-},[])
 
 
 
@@ -42,7 +23,8 @@ getNotifications() ;
               key={notification.id}
               className="bg-white border-2 border-red-400 p-3 rounded shadow hover:bg-gray-50"
             >
-              <p className="text-gray-700">{notification.message}</p>
+              <p className="text-black">{notification.message}</p>
+              <p className="text-gray-700">Posted Date : {notification.date}</p>
                
             </li>
           ))}

@@ -1,15 +1,33 @@
  import { Link, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../context/Firebase';
+import { FaRegBell } from "react-icons/fa";
+import { toast } from 'react-toastify';
 
-function Navbar() {
+function Navbar({notifications}) {
+
   const firebase = useFirebase();
   const navigate = useNavigate();
 
   const handleLogOut = () => {
     firebase.signOutUser();
-    alert("Logged out successfully!");
+    toast.success("Logged out successfully!");
     navigate("/login");
   };
+
+   const renderBellIcon = () => (
+    <div className="relative">
+      <FaRegBell className="text-2xl" />
+      {notifications.length > 0 && (
+        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+          {notifications.length}
+        </span>
+      )}
+    </div>
+  );
+
+
+
+
 
   const { role, isLoggedIn } = firebase;
 
@@ -42,11 +60,12 @@ function Navbar() {
             <li>
               <Link to="/admin" className="hover:bg-blue-700 px-3 py-1 rounded">Admin</Link>
             </li>
-            <li>
-              <Link to="/notification" className="hover:bg-blue-700 px-3 py-1 rounded">Notifications</Link>
-            </li>
+           
             <li>
               <Link to="/manageRenterListing" className="hover:bg-blue-700 px-3 py-1 rounded">Manage Listings</Link>
+            </li>
+             <li>
+              <Link to="/notification" className="  px-3 py-1 rounded">{renderBellIcon()}</Link>
             </li>
           </>
         )}
@@ -57,16 +76,23 @@ function Navbar() {
               <Link to="/renter" className="hover:bg-blue-700 px-3 py-1 rounded">Renter</Link>
             </li>
             <li>
-              <Link to="/notification" className="hover:bg-blue-700 px-3 py-1 rounded">Notifications</Link>
+              <Link to="/notification" className="  px-3 py-1 rounded">{renderBellIcon()}</Link>
             </li>
           </>
         )}
 
         {isLoggedIn && role === "purchaser" && (
           <>
-            <li>
-              <Link to="/notification" className="hover:bg-blue-700 px-3 py-1 rounded">Notifications</Link>
+           <li>
+              <Link to="/carsForRent" className=" px-3 py-1 rounded hover:bg-blue-700 ">Cars For Rent</Link>
             </li>
+             <li>
+              <Link to="/carsForSell" className=" px-3 py-1 rounded hover:bg-blue-700">Cars For Sell</Link>
+            </li>
+            <li>
+              <Link to="/notification" className=" px-3 py-1 rounded">{renderBellIcon()}</Link>
+            </li>
+            
           </>
         )}
 

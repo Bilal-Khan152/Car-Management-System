@@ -25,6 +25,8 @@ export const saveNotification = async ({
             type,
             read: false,
             createdAt: serverTimestamp(),
+            date : new Date().toDateString()
+
         
         });
     } catch (error) {

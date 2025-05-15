@@ -5,6 +5,7 @@ import ModalForRenter from "../components/ModalForRenter";
 import { useFirebase } from "../context/Firebase";
 import CarsCardForRenter from "../components/CarsCardForRenter";
 import { saveNotification } from "../utils/saveNotification";
+import { toast } from "react-toastify";
 
 function RenterPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +22,7 @@ function RenterPage() {
     try {
       console.log("submitting", carName, description);
       await firebase.storedRenterCarDetails(carName, description, price);
-      alert("send request to admin for approval!");
+      toast.success("send request to admin for approval!");
       setCarName("");
       setDescription("");
       setPrice("")
@@ -29,7 +30,7 @@ function RenterPage() {
 
 
   await saveNotification({
-  message : `Renter submitted a new car: ${carName}` , 
+  message : `Renter submitted a new car for rent: ${carName}` , 
   fromRole : "renter" , 
   toRoles : ["admin"]  ,
   type : "request"  ,
@@ -42,7 +43,7 @@ function RenterPage() {
 
     } catch (error) {
       console.error("Error adding car:", error);
-      alert("Failed to add car.");
+      toast.warning("Failed to add car.");
     }
   };
 

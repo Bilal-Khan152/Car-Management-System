@@ -22,9 +22,9 @@ function CardCardAccepteFromAdmin({imageUrl , carName , desc}) {
         
        </div>
 
-    <button className="mt-3 mb-2 ms-3    bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+    <button className=" cursor-pointer mt-3 mb-2 ms-3    bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
  >
-   Rent it
+   View Details
     </button>
 
 

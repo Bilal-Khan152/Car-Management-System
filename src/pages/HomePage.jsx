@@ -1,27 +1,21 @@
-import React from 'react' ; 
-import { useFirebase } from '../context/Firebase' ;
-import { useNavigate } from 'react-router-dom';
+ import React from 'react';
 
 function HomePage() {
-
-  const firebase = useFirebase() ; 
-  const navigate = useNavigate() ;
-
-  function handleLogOut(){
-     firebase.signOutUser() ;
-     alert("Logged out successfully!") ;
-     navigate("/login") ;
+  return (
+    <div
+      className="h-screen  flex items-center justify-center text-white   bg-black"
+  
+    >
+       
     
 
-  }
-
-
-  return (
-    <div>
-      Home Page 
-      <button onClick={handleLogOut}>LogOut</button>
+      {/* Content */}
+      <div className="relative z-10 text-center">
+        <h1 className="text-5xl font-bold mb-4">Welcome to Car Management System</h1>
+        <p className="text-xl">Track, Manage, and Explore All Vehicles Seamlessly</p>
+      </div>
     </div>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;
