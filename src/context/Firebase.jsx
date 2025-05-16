@@ -156,22 +156,26 @@ export const FirebaseProvider = (props) => {
 
   // to store admin car details in firestore
 
-  const storedCarDetail = async (carName, description) => {
+  const storedCarDetail = async (carName, description , carModal , price) => {
     return await addDoc(collection(db, "cars"), {
       carName,
       description,
+      carModal , 
+      price ,
+      createdAt : new Date() 
     });
   };
 
   // to store renter car details in firestore
 
-  const storedRenterCarDetails = async (carName, description, price) => {
+  const storedRenterCarDetails = async (carName, description, price , carModal) => {
     return await addDoc(collection(db, "renter"), {
       carName,
       description,
       price,
+      carModal , 
       status : "pending" , 
-      createdAt : new Date()
+      createdAt : new Date() 
     });    
   };
 
@@ -199,6 +203,13 @@ export const FirebaseProvider = (props) => {
     return result;
   }
   
+  // gets Rent cars data basis on the given id 
+
+  const getRenterCardsById = async (id) => {
+    const docRef = doc(db , "renter" , id) ;
+    const result = await getDoc(docRef) ;
+    return result ;
+  }
 
 
 
@@ -283,7 +294,8 @@ const fetchNotifications = async () => {
           fetchNotifications  ,
           acceptRenterRequest , 
           getAcceptedRenterCards , 
-          getCarsCardDataById 
+          getCarsCardDataById , 
+          getRenterCardsById 
         }}
       >
         {props.children}

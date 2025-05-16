@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useFirebase } from "../context/Firebase";
 
-function CarsCarForNewPost({ carName, desc, imageUrl, id }) {
+function CarsCarForNewPost({ carName, desc, imageUrl, id ,  carModal , carPrice }) {
   const navigate = useNavigate() ;
   const firebase = useFirebase() ;
 
@@ -29,7 +29,10 @@ function CarsCarForNewPost({ carName, desc, imageUrl, id }) {
         <h3 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
           {carName}
         </h3>
-        <p className="mb-3 font-normal text-gray-700">{desc}</p>
+        <p className="mb-3 font-bold text-gray-700"> 
+          Car Modal : <span className="font-semibold italic"> {carModal} </span> </p>
+  
+       
 
         <button
           onClick={handleONCLick}

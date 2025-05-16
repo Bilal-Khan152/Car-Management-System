@@ -1,9 +1,9 @@
- import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../context/Firebase';
 import { FaRegBell } from "react-icons/fa";
 import { toast } from 'react-toastify';
 
-function Navbar({notifications}) {
+function Navbar({ notifications }) {
 
   const firebase = useFirebase();
   const navigate = useNavigate();
@@ -14,9 +14,9 @@ function Navbar({notifications}) {
     navigate("/login");
   };
 
-   const renderBellIcon = () => (
+  const renderBellIcon = () => (
     <div className="relative">
-      <FaRegBell className="text-2xl" />
+      <FaRegBell className="text-xl" />
       {notifications.length > 0 && (
         <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
           {notifications.length}
@@ -32,7 +32,7 @@ function Navbar({notifications}) {
   const { role, isLoggedIn } = firebase;
 
   return (
-    <nav className="bg-blue-600 text-white px-6 py-4 flex items-center justify-between shadow-md">
+    <nav className="bg-blue-600 text-white px-6 py-2 flex items-center justify-between shadow-md">
       {/* Left Logo / Brand */}
       <div className="text-2xl font-bold">
         <Link to="/">MyApp</Link>
@@ -60,11 +60,11 @@ function Navbar({notifications}) {
             <li>
               <Link to="/admin" className="hover:bg-blue-700 px-3 py-1 rounded">Admin</Link>
             </li>
-           
+
             <li>
               <Link to="/manageRenterListing" className="hover:bg-blue-700 px-3 py-1 rounded">Manage Listings</Link>
             </li>
-             <li>
+            <li>
               <Link to="/notification" className="  px-3 py-1 rounded">{renderBellIcon()}</Link>
             </li>
           </>
@@ -73,7 +73,7 @@ function Navbar({notifications}) {
         {isLoggedIn && role === "renter" && (
           <>
             <li>
-              <Link to="/renter" className="hover:bg-blue-700 px-3 py-1 rounded">Renter</Link>
+              <Link to="/renter" className="hover:bg-blue-700 px-3 py-1 rounded">My-Rentals</Link>
             </li>
             <li>
               <Link to="/notification" className="  px-3 py-1 rounded">{renderBellIcon()}</Link>
@@ -83,16 +83,16 @@ function Navbar({notifications}) {
 
         {isLoggedIn && role === "purchaser" && (
           <>
-           <li>
+            <li>
               <Link to="/carsForRent" className=" px-3 py-1 rounded hover:bg-blue-700 ">Cars For Rent</Link>
             </li>
-             <li>
-              <Link to="/carsForSell" className=" px-3 py-1 rounded hover:bg-blue-700">Cars For Sell</Link>
+            <li>
+              <Link to="/carsForSell" className=" px-3 py-1 rounded hover:bg-blue-700">Cars For Buy</Link>
             </li>
             <li>
               <Link to="/notification" className=" px-3 py-1 rounded">{renderBellIcon()}</Link>
             </li>
-            
+
           </>
         )}
 
