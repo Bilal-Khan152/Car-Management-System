@@ -66,14 +66,25 @@ function CarsForRent() {
 
       {/* accepted cars data */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-        {filteredCars.map((car, index) => (
-          <CardCardAccepteFromAdmin
-            key={car.id}
-            carName={car.carName}
-            desc={car.description}
-            imageUrl={images[index % images.length]}
-          />
-        ))}
+         {filteredCars.length > 0 ? (
+  filteredCars.map((car, index) => (
+    <CardCardAccepteFromAdmin
+      key={car.id}
+      carName={car.carName}
+      modal={car.carModal}
+      id={car.id}
+      imageUrl={images[index % images.length]}
+    />
+  ))
+) : (
+  <div className="col-span-full flex justify-center items-center h-96">
+    <div className="text-center">
+      <h2 className="text-2xl font-bold text-gray-200">No cars available for rent kindly check later.</h2>
+    
+    </div>
+  </div>
+)}
+
       </div>
     </div>
   );

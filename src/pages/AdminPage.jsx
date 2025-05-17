@@ -12,23 +12,25 @@ import { saveNotification } from "../utils/saveNotification";
 import { toast } from "react-toastify";
 
 function AdminPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [carsData, setCarsData] = useState([]);
-  const [carName, setCarName] = useState("");
-  const [description, setDescription] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false) ; 
+  const [carsData, setCarsData] = useState([]) ;
+  const [carName, setCarName] = useState("") ;
+  const [description, setDescription] = useState("") ;
+  const [carModal , setCarModal] = useState("") ;
+  const [price , setPrice] = useState("") ;
 
   const firebase = useFirebase();
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("submitting", carName, description);
-      await firebase.storedCarDetail(carName, description);
-      toast.success("Car added successfully!");
-      setCarName("");
-      setDescription("");
-      setIsModalOpen(false);
-
+      console.log("submitting", carName, description , carModal) ;
+      await firebase.storedCarDetail(carName, description , carModal , price) ;
+      toast.success("Car added successfully!") ;
+      setCarName("") ;
+      setDescription("") ;
+      setCarModal("") ;
+      setIsModalOpen(false) ;
       await saveNotification({
         message: `A new car ${carName} has been added`,
         fromRole: "admin",
@@ -36,8 +38,8 @@ function AdminPage() {
         type: "new-car",
       });
     } catch (error) {
-      console.error("Error adding car:", error);
-      toast.warning("Failed to add car.");
+      console.error("Error adding car:", error) ;
+      toast.warning("Failed to add car.") ;
     }
   };
 
@@ -81,6 +83,10 @@ function AdminPage() {
         description={description}
         setIsModalOpen={setIsModalOpen}
         handleOnSubmit={handleOnSubmit}
+        carModal={carModal}
+        setCarModal={setCarModal}
+        price={price}
+        setPrice={setPrice}
       />
 
       {/* Cards */}
@@ -93,6 +99,8 @@ function AdminPage() {
               key={car.id}
               carName={car.carName}
               desc={car.description}
+              modal = {car.carModal}
+              price={car.price}
               imageUrl={images[index % images.length]}
             />
           );

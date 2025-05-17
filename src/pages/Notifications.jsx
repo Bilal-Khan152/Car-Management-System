@@ -1,18 +1,12 @@
- 
-
-
-
-
-function Notifications({notifications }) {
 
 
 
 
 
+function Notifications({ notifications }) {
 
-
-  return (
-   <div className="p-4">
+ return (
+    <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Notifications :</h2>
       {notifications.length === 0 ? (
         <p>No notifications yet.</p>
@@ -25,7 +19,7 @@ function Notifications({notifications }) {
             >
               <p className="text-black">{notification.message}</p>
               <p className="text-gray-700">Posted Date : {notification.date}</p>
-               
+
             </li>
           ))}
         </ul>

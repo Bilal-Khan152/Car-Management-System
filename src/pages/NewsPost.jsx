@@ -78,8 +78,10 @@ function NewsPost() {
           <CarsCardForNewPost
             key={car.id}
             carName={car.carName}
+            carModal = {car.carModal}
             desc={car.description}
             imageUrl={images[index % images.length]}
+            carPrice = {car.price}
             id={car.id}
           />
         ))}

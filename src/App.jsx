@@ -17,6 +17,7 @@ import { useFirebase } from "./context/Firebase";
 import CarsForRent from "./pages/CarsForRent";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DetailsOfSellCar from "./pages/DetailsOfSellCar";
+import DetailsOfRentCar from "./pages/DetailsOfRentCar";
 
 function App() {
   const [notifications, setNotications] = useState([]);
@@ -113,6 +114,14 @@ function App() {
           } 
         />
 
+          <Route
+          path="/viewRentCarDetail/:id"
+          element={
+            <ProtectedRoute allowedRoles={["purchaser"]}>
+               <DetailsOfRentCar/>
+            </ProtectedRoute>
+          } 
+        />
         {/* notification is common to all roles */}
 
         <Route

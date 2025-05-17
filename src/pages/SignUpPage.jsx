@@ -14,9 +14,9 @@ function SignUpPage() {
   const firebase = useFirebase();
 
   const handleOnSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    await firebase.signUpUser(email, password, role);
+    e.preventDefault() ;
+    setIsSubmitting(true) ;
+    await firebase.signUpUser(email, password, role) ;
   };
 
   // Wait for role to be set in context

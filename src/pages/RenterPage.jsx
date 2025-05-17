@@ -10,23 +10,25 @@ import { toast } from "react-toastify";
 function RenterPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
  
-  const [carName, setCarName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const [carName, setCarName] = useState("") ;
+  const [description, setDescription] = useState("") ;
+  const [price, setPrice] = useState("") ;
+  const [carModal , setCarModal] = useState("") ;
    
 
   const firebase = useFirebase();
 
   const handleOnSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault() ;
     try {
-      console.log("submitting", carName, description);
-      await firebase.storedRenterCarDetails(carName, description, price);
-      toast.success("send request to admin for approval!");
-      setCarName("");
-      setDescription("");
-      setPrice("")
-      setIsModalOpen(false); 
+      console.log("submitting", carName, description) ;
+      await firebase.storedRenterCarDetails(carName, description, price , carModal) ;
+      toast.success("send request to admin for approval!") ;
+      setCarName("") ;
+      setDescription("") ;
+      setPrice("") ;
+      setCarModal("") ;
+      setIsModalOpen(false) ; 
 
 
   await saveNotification({
@@ -76,6 +78,8 @@ function RenterPage() {
         setPrice={setPrice}
         setIsModalOpen={setIsModalOpen}
         handleOnSubmit={handleOnSubmit}
+        modal={carModal}
+        setCarModal={setCarModal}
       />
 
    

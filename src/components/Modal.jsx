@@ -1,7 +1,7 @@
 import React from 'react'
 import { ImCross } from "react-icons/im";
 
-function Modal({isModalOpen , setIsModalOpen  , carName , description ,setCarName , setDescription ,  handleOnSubmit}) {
+function Modal({ price , setPrice ,   carModal , setCarModal ,  isModalOpen , setIsModalOpen  , carName , description ,setCarName , setDescription ,  handleOnSubmit}) {
   return (
     <>
     
@@ -34,7 +34,39 @@ function Modal({isModalOpen , setIsModalOpen  , carName , description ,setCarNam
               />
             </div>
 
+
+       {/* Modal Name Input */}
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-medium mb-2">
+                Car Modal
+              </label>
+              <input 
+                type="text"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md 
+                  focus:outline-none focus:ring-2 focus:ring-blue-500
+                  text-gray-700"
+                placeholder="Enter car modal"
+                value={carModal}
+                onChange={(e)=>  setCarModal(e.target.value)}
+              />
+            </div>
             
+            
+       {/* Price Name Input */}
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-medium mb-2">
+                Car Price
+              </label>
+              <input 
+                type="text"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md 
+                  focus:outline-none focus:ring-2 focus:ring-blue-500
+                  text-gray-700"
+                placeholder="Enter car modal"
+                value={price}
+                onChange={(e) =>  setPrice(e.target.value)}
+              />
+            </div>
 
             {/* Textarea */}
             <div className="mb-6">
