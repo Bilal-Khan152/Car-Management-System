@@ -2,6 +2,8 @@
 import Form from "../components/Form";
 import { useFirebase } from "../context/Firebase";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -14,12 +16,18 @@ function SignUpPage() {
   const firebase = useFirebase();
 
   const handleOnSubmit = async (e) => {
-    e.preventDefault() ;
-    setIsSubmitting(true) ;
-    await firebase.signUpUser(email, password, role) ;
+    e.preventDefault();
+
+    // Simple validation
+    if (!email || !password || !role) {
+      toast.warning("Please fill in all fields.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    await firebase.signUpUser(email, password, role);
   };
 
-  // Wait for role to be set in context
   useEffect(() => {
     if (isSubmitting && firebase.role) {
       if (firebase.role === "renter") {
@@ -34,6 +42,7 @@ function SignUpPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 ">
+      <ToastContainer />
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           User Registration

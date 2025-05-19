@@ -13,7 +13,9 @@ function CarsForRent() {
   const [acceptCars, setAcceptsCars] = useState([]) ;
   const [filteredCars, setFilteresCars] = useState([]) ;
   const [searchName, setSearchName] = useState("") ;
+  const [currentPage , setCurrentPage] = useState(1) ;
 
+   const itemsPerPage = 6 ;
   const firebase = useFirebase() ;
 
   const fetchAccetedCars = async () => {
@@ -44,11 +46,15 @@ function CarsForRent() {
     setFilteresCars(filtered);
   }, [searchName, acceptCars]);
 
+  const lastIndex = currentPage * itemsPerPage ;
+  const firstIndex = lastIndex - itemsPerPage ;
+  const currentcards = filteredCars.slice(firstIndex, lastIndex) ;
+  const totalPages =  Math.ceil(filteredCars.length / itemsPerPage) ;
   const images = [car1, car2, car3, car4, car5, car6];
 
   return (
     <div className="bg-stone-900 text-white">
-      <div className="max-w-7xl mx-auto text-center mb-10 ">
+      <div className="max-w-7xl mx-auto text-center mb-10 pt-4 ">
         <h1 className="text-4xl font-bold ">Available Cars for Rent</h1>
         <p className="mt-2 ">Select your car and enjoy your day .</p>
       </div>
@@ -66,8 +72,8 @@ function CarsForRent() {
 
       {/* accepted cars data */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-         {filteredCars.length > 0 ? (
-  filteredCars.map((car, index) => (
+         {currentcards.length > 0 ? (
+  currentcards.map((car, index) => (
     <CardCardAccepteFromAdmin
       key={car.id}
       carName={car.carName}
@@ -86,6 +92,39 @@ function CarsForRent() {
 )}
 
       </div>
+
+
+      {totalPages > 1 && (
+  <div className="flex justify-center mt-6   space-x-4">
+    <button
+      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+      disabled={currentPage === 1}
+      className={`px-5 py-2 rounded-full font-semibold transition duration-300 cursor-pointer shadow-md ${
+        currentPage === 1
+          ? "bg-gray-400 text-white cursor-not-allowed"
+          : "bg-indigo-600 text-white hover:bg-indigo-700"
+      }`}
+    >
+      Previous
+    </button>
+
+    <span className="px-5 py-2 bg-white text-gray-800 font-medium rounded-full shadow-sm">
+      Page {currentPage} of {totalPages}
+    </span>
+
+    <button
+      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+      disabled={currentPage === totalPages}
+      className={`px-5 py-2 rounded-full font-semibold transition duration-300  cursor-pointer shadow-md ${
+        currentPage === totalPages
+          ? "bg-gray-400 text-white cursor-not-allowed"
+          : "bg-indigo-600 text-white hover:bg-indigo-700"
+      }`}
+    >
+      Next
+    </button>
+  </div>
+)}
     </div>
   );
 }
