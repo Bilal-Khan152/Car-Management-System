@@ -18,7 +18,10 @@ function AdminPage() {
   const [description, setDescription] = useState("") ;
   const [carModal , setCarModal] = useState("") ;
   const [price , setPrice] = useState("") ;
+  const [currentPage , setCurrentPage] = useState(1) ;
 
+
+  const itemsPerPage = 6 ;
   const firebase = useFirebase();
 
   const handleOnSubmit = async (e) => {
@@ -31,6 +34,7 @@ function AdminPage() {
       setDescription("") ;
       setCarModal("") ;
       setIsModalOpen(false) ;
+
       await saveNotification({
         message: `A new car ${carName} has been added`,
         fromRole: "admin",
@@ -56,6 +60,11 @@ function AdminPage() {
     fetchCars();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const lastIndex = currentPage * itemsPerPage ; 
+  const firstIndex = lastIndex - itemsPerPage ;
+  const currentCards = carsData.slice(firstIndex , lastIndex) ;
+  const totalPages = Math.ceil(carsData.length / itemsPerPage) ;
 
   return (
     <div className="bg-slate-600 w-full min-h-screen flex flex-col items-center custom-Background">
@@ -91,7 +100,7 @@ function AdminPage() {
 
       {/* Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10 px-6">
-        {carsData.map((car, index) => {
+        {currentCards.map((car, index) => {
           const images = [car1, car2, car3, car4, car5, car6];
 
           return (
@@ -106,8 +115,41 @@ function AdminPage() {
           );
         })}
       </div>
+ {totalPages > 1 && (
+  <div className="flex justify-center mt-6 mb-6 space-x-4">
+    <button
+      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+      disabled={currentPage === 1}
+      className={`px-5 py-2 rounded-full font-semibold transition duration-300 cursor-pointer shadow-md ${
+        currentPage === 1
+          ? "bg-gray-400 text-white cursor-not-allowed"
+          : "bg-indigo-600 text-white hover:bg-indigo-700"
+      }`}
+    >
+      Previous
+    </button>
+
+    <span className="px-5 py-2 bg-white text-gray-800 font-medium rounded-full shadow-sm">
+      Page {currentPage} of {totalPages}
+    </span>
+
+    <button
+      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+      disabled={currentPage === totalPages}
+      className={`px-5 py-2 rounded-full font-semibold transition duration-300  cursor-pointer shadow-md ${
+        currentPage === totalPages
+          ? "bg-gray-400 text-white cursor-not-allowed"
+          : "bg-indigo-600 text-white hover:bg-indigo-700"
+      }`}
+    >
+      Next
+    </button>
+  </div>
+)}
+
+
     </div>
   );
 }
 
-export default AdminPage;
+export default AdminPage ;

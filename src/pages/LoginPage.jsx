@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useFirebase } from "../context/Firebase";
-import LoginForm from "../components/LoginForm";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react" ;
+import { useFirebase } from "../context/Firebase" ;
+import LoginForm from "../components/LoginForm" ;
+import { useNavigate } from "react-router-dom" ;
+import { toast } from "react-toastify" ;
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("") ;
+  const [password, setPassword] = useState("") ;
 
-  const navigate = useNavigate();
-  const firebase = useFirebase();
+  const navigate = useNavigate() ;
+  const firebase = useFirebase() ;
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ function LoginPage() {
         return;
       }
 
-      // 🔑 Get role from localStorage 
+      //  Get role from localStorage 
       const role = localStorage.getItem("userRole") ;
 
       if (!role) {
@@ -33,7 +33,7 @@ function LoginPage() {
         return;
       }
 
-      // ✅ Redirect based on role
+      //  Redirect based on role
       if (role === "admin") {
         navigate("/");
       } else if (role === "purchaser") {

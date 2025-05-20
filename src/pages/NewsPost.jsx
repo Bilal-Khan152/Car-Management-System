@@ -10,10 +10,12 @@ import car5 from "../assets/car5.jpg";
 import car6 from "../assets/car6.jpg";
 
 function NewsPost() {
-  const [carsData, setCarsData] = useState([]);
-  const [filteredCars, setFilteresCars] = useState([]);
-  const [searchName, setSearchName] = useState("");
+  const [carsData, setCarsData] = useState([]) ;
+  const [filteredCars, setFilteresCars] = useState([]) ;
+  const [searchName, setSearchName] = useState("") ;
+  const [currentPage , setCurrentPage] = useState(1) ; 
 
+  const itemsPerPage = 6 ; 
   
 
 
@@ -36,17 +38,25 @@ function NewsPost() {
   };
 
   useEffect(() => {
-    fetchCars();
-  }, []);
+    fetchCars()
+  }, []) ;
 
   useEffect(() => {
     const filtered = carsData.filter((car) =>
       car.carName.toLowerCase().includes(searchName.toLocaleLowerCase())
-    );
-    setFilteresCars(filtered);
-  }, [searchName, carsData]);
+    ) ;
+    setFilteresCars(filtered) ;
+  }, [searchName, carsData]) ;
 
-  const images = [car1, car2, car3, car4, car5, car6];
+const  lastIndex   = currentPage * itemsPerPage ; 
+const  firstIndex  = lastIndex - itemsPerPage  ;
+const currentCards = filteredCars.slice(firstIndex , lastIndex) ; 
+const  totalPages = Math.ceil(filteredCars.length / itemsPerPage) ; 
+  
+ 
+
+
+  const images = [car1, car2, car3, car4, car5, car6] ;
 
   return (
     <div className="min-h-screen bg-stone-900 text-white py-10 px-4">
@@ -74,7 +84,7 @@ function NewsPost() {
 
       {/* Cards Grid */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-3.5">
-        {filteredCars.map((car, index) => (
+        {currentCards.map((car, index) => (
           <CarsCardForNewPost
             key={car.id}
             carName={car.carName}
@@ -85,7 +95,40 @@ function NewsPost() {
             id={car.id}
           />
         ))}
-      </div>
+      </div>   
+
+        {totalPages > 1 && (
+  <div className="flex justify-center mt-6 mb-6 space-x-4">
+    <button
+      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+      disabled={currentPage === 1}
+      className={`px-5 py-2 rounded-full font-semibold transition duration-300 cursor-pointer shadow-md ${
+        currentPage === 1
+          ? "bg-gray-400 text-white cursor-not-allowed"
+          : "bg-indigo-600 text-white hover:bg-indigo-700"
+      }`}
+    >
+      Previous
+    </button>
+
+    <span className="px-5 py-2 bg-white text-gray-800 font-medium rounded-full shadow-sm">
+      Page {currentPage} of {totalPages}
+    </span>
+
+    <button
+      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+      disabled={currentPage === totalPages}
+      className={`px-5 py-2 rounded-full font-semibold transition duration-300  cursor-pointer shadow-md ${
+        currentPage === totalPages
+          ? "bg-gray-400 text-white cursor-not-allowed"
+          : "bg-indigo-600 text-white hover:bg-indigo-700"
+      }`}
+    >
+      Next
+    </button>
+  </div>
+)}
+
     </div>
   );
 }

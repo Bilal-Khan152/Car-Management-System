@@ -1,7 +1,7 @@
 import React from 'react'
 
-function CarsCardForRenter({imageUrl , carName , desc , price , onAccept}) {
-   return (
+function RentalsCars({carName , carModal, description, price ,  imageUrl}) {
+  return (
     <div className="max-w-sm bg-white border border-gray-200 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]">
       <div className="relative overflow-hidden h-48">
         <img
@@ -16,25 +16,22 @@ function CarsCardForRenter({imageUrl , carName , desc , price , onAccept}) {
         <h3 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
           {carName}
         </h3>
-        <h3 className="mb-2 text-sm font-semibold tracking-tight text-gray-900">
-          {price}
-        </h3>
-        <p className="mb-3 font-normal text-gray-700">
-          {desc}
+ 
+          <p className="mb-3 font-bold text-gray-700">
+          Car Modal : <span className="italic font-semibold"> {carModal} </span>
+        </p>
+
+        <p className="mb-3 font-bold text-gray-700">
+          Car Price : <span className="italic font-semibold"> {price} </span>
+        </p>
+
+        <p className="mb-3 font-bold text-gray-700">
+          Car Description :  <span className="italic font-semibold">{description}</span>
         </p>
         
-       <button
-        onClick={onAccept}
-       className="mt-3 cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-     >
-      Accept the request
-       </button>
-
-
-    
       </div>
     </div>
   );
 }
 
-export default CarsCardForRenter ;
+export default RentalsCars ;

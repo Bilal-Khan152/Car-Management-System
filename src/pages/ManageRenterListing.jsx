@@ -11,6 +11,7 @@ import { useFirebase } from "../context/Firebase";
 
 function ManageRenterListing() {
   const [carsData, setCarsData] = useState([]);
+  console.log(carsData)
 
   const firebase = useFirebase();
 
