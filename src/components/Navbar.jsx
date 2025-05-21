@@ -33,7 +33,7 @@ function Navbar({ notifications }) {
 
   return (
     <nav className="bg-blue-600 text-white px-6 py-2 flex items-center justify-between shadow-md">
-      {/* Left Logo / Brand */}
+      {/* Left Logo */}
       <div className="text-2xl font-bold">
         <Link to="/">MyApp</Link>
       </div>
@@ -52,7 +52,7 @@ function Navbar({ notifications }) {
             <li>
               <Link to="/signUp" className="hover:bg-blue-700 px-3 py-1 rounded">Sign Up</Link>
             </li>
-          </>
+          </>  
         )}
 
         {isLoggedIn && role === "admin" && (
@@ -64,6 +64,11 @@ function Navbar({ notifications }) {
             <li>
               <Link to="/manageRenterListing" className="hover:bg-blue-700 px-3 py-1 rounded">Manage Listings</Link>
             </li>
+
+             <li>
+              <Link to="/chatting" className="hover:bg-blue-700 px-3 py-1 rounded">Your Chats</Link>
+            </li>
+
             <li>
               <Link to="/notification" className="  px-3 py-1 rounded">{renderBellIcon()}</Link>
             </li>
@@ -74,6 +79,9 @@ function Navbar({ notifications }) {
           <>
             <li>
               <Link to="/renter" className="hover:bg-blue-700 px-3 py-1 rounded">My-Rentals</Link>
+            </li>
+             <li>
+              <Link to="/chatting" className="hover:bg-blue-700 px-3 py-1 rounded">Your Chats</Link>
             </li>
             <li>
               <Link to="/notification" className="  px-3 py-1 rounded">{renderBellIcon()}</Link>
@@ -88,6 +96,9 @@ function Navbar({ notifications }) {
             </li>
             <li>
               <Link to="/carsForSell" className=" px-3 py-1 rounded hover:bg-blue-700">Cars For Buy</Link>
+            </li>
+             <li>
+              <Link to="/chatting" className="hover:bg-blue-700 px-3 py-1 rounded">Your Chats</Link>
             </li>
             <li>
               <Link to="/notification" className=" px-3 py-1 rounded">{renderBellIcon()}</Link>

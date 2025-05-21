@@ -1,9 +1,8 @@
 
-
-
-
-
 function Notifications({ notifications }) {
+
+  console.log(notifications)
+
 
  return (
     <div className="p-4">
@@ -23,7 +22,7 @@ function Notifications({ notifications }) {
             </li>
           ))}
         </ul>
-      )}
+      )} 
     </div>
   )
 }

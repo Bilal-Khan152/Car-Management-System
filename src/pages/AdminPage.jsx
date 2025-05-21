@@ -12,28 +12,28 @@ import { saveNotification } from "../utils/saveNotification";
 import { toast } from "react-toastify";
 
 function AdminPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false) ; 
-  const [carsData, setCarsData] = useState([]) ;
-  const [carName, setCarName] = useState("") ;
-  const [description, setDescription] = useState("") ;
-  const [carModal , setCarModal] = useState("") ;
-  const [price , setPrice] = useState("") ;
-  const [currentPage , setCurrentPage] = useState(1) ;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [carsData, setCarsData] = useState([]);
+  const [carName, setCarName] = useState("");
+  const [description, setDescription] = useState("");
+  const [carModal, setCarModal] = useState("");
+  const [price, setPrice] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
 
-  const itemsPerPage = 6 ;
+  const itemsPerPage = 6;
   const firebase = useFirebase();
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("submitting", carName, description , carModal) ;
-      await firebase.storedCarDetail(carName, description , carModal , price) ;
-      toast.success("Car added successfully!") ;
-      setCarName("") ;
-      setDescription("") ;
-      setCarModal("") ;
-      setIsModalOpen(false) ;
+      console.log("submitting", carName, description, carModal);
+      await firebase.storedCarDetail(carName, description, carModal, price);
+      toast.success("Car added successfully!");
+      setCarName("");
+      setDescription("");
+      setCarModal("");
+      setIsModalOpen(false);
 
       await saveNotification({
         message: `A new car ${carName} has been added`,
@@ -42,8 +42,8 @@ function AdminPage() {
         type: "new-car",
       });
     } catch (error) {
-      console.error("Error adding car:", error) ;
-      toast.warning("Failed to add car.") ;
+      console.error("Error adding car:", error);
+      toast.warning("Failed to add car.");
     }
   };
 
@@ -61,10 +61,10 @@ function AdminPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const lastIndex = currentPage * itemsPerPage ; 
-  const firstIndex = lastIndex - itemsPerPage ;
-  const currentCards = carsData.slice(firstIndex , lastIndex) ;
-  const totalPages = Math.ceil(carsData.length / itemsPerPage) ;
+  const lastIndex = currentPage * itemsPerPage;
+  const firstIndex = lastIndex - itemsPerPage;
+  const currentCards = carsData.slice(firstIndex, lastIndex);
+  const totalPages = Math.ceil(carsData.length / itemsPerPage);
 
   return (
     <div className="bg-slate-600 w-full min-h-screen flex flex-col items-center custom-Background">
@@ -108,48 +108,46 @@ function AdminPage() {
               key={car.id}
               carName={car.carName}
               desc={car.description}
-              modal = {car.carModal}
+              modal={car.carModal}
               price={car.price}
               imageUrl={images[index % images.length]}
             />
           );
         })}
       </div>
- {totalPages > 1 && (
-  <div className="flex justify-center mt-6 mb-6 space-x-4">
-    <button
-      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-      disabled={currentPage === 1}
-      className={`px-5 py-2 rounded-full font-semibold transition duration-300 cursor-pointer shadow-md ${
-        currentPage === 1
-          ? "bg-gray-400 text-white cursor-not-allowed"
-          : "bg-indigo-600 text-white hover:bg-indigo-700"
-      }`}
-    >
-      Previous
-    </button>
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-6 mb-6 space-x-4">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className={`px-5 py-2 rounded-full font-semibold transition duration-300 cursor-pointer shadow-md ${currentPage === 1
+                ? "bg-gray-400 text-white cursor-not-allowed"
+                : "bg-indigo-600 text-white hover:bg-indigo-700"
+              }`}
+          >
+            Previous
+          </button>
 
-    <span className="px-5 py-2 bg-white text-gray-800 font-medium rounded-full shadow-sm">
-      Page {currentPage} of {totalPages}
-    </span>
+          <span className="px-5 py-2 bg-white text-gray-800 font-medium rounded-full shadow-sm">
+            Page {currentPage} of {totalPages}
+          </span>
 
-    <button
-      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-      disabled={currentPage === totalPages}
-      className={`px-5 py-2 rounded-full font-semibold transition duration-300  cursor-pointer shadow-md ${
-        currentPage === totalPages
-          ? "bg-gray-400 text-white cursor-not-allowed"
-          : "bg-indigo-600 text-white hover:bg-indigo-700"
-      }`}
-    >
-      Next
-    </button>
-  </div>
-)}
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className={`px-5 py-2 rounded-full font-semibold transition duration-300  cursor-pointer shadow-md ${currentPage === totalPages
+                ? "bg-gray-400 text-white cursor-not-allowed"
+                : "bg-indigo-600 text-white hover:bg-indigo-700"
+              }`}
+          >
+            Next
+          </button>
+        </div>
+      )}
 
 
     </div>
   );
 }
 
-export default AdminPage ;
+export default AdminPage;

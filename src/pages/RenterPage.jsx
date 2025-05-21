@@ -20,11 +20,11 @@ function RenterPage() {
   const [price, setPrice] = useState("");
   const [carModal, setCarModal] = useState("");
 
-     console.log(carsData)
+//  console.log(carsData)
   const firebase = useFirebase();
 
-
-    const fetchAccetedCars = async () => {
+  // fetch car posts which is accepted from admin
+   const fetchAccetedCars = async () => {
     try {
       // Fetch accepted renter cars
       const renterSnapshot = await firebase.getAcceptedRenterCards();
