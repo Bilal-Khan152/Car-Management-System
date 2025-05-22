@@ -12,8 +12,7 @@ import { db } from "../context/Firebase.jsx" ;
 export const saveNotification = async ({
     message,
     fromRole,
-    toRoles,
-      
+    toRoles,      
     type = "general",
     
 }) => {

@@ -10,7 +10,6 @@ import Navbar from "./components/Navbar";
 import Notifications from "./pages/Notifications";
 import ManageRenterListing from "./pages/ManageRenterListing";
 import { useState, useEffect } from "react";
-import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { useFirebase } from "./context/Firebase";
@@ -18,6 +17,9 @@ import CarsForRent from "./pages/CarsForRent";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DetailsOfSellCar from "./pages/DetailsOfSellCar";
 import DetailsOfRentCar from "./pages/DetailsOfRentCar";
+import Chats from "./pages/Chats";
+import "./App.css";
+
 
 function App() {
   const [notifications, setNotications] = useState([]);
@@ -122,7 +124,8 @@ function App() {
             </ProtectedRoute>
           } 
         />
-        {/* notification is common to all roles */}
+        
+        {/* notification and chats are common to all roles */}
 
         <Route
           path="/notification"
@@ -135,6 +138,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+ 
+         <Route
+          path="/chatting"
+          element={
+            <ProtectedRoute allowedRoles={["admin", "renter", "purchaser"]}>
+               <Chats/>
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
     </>
   );
