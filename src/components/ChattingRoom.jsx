@@ -49,7 +49,7 @@ function ChattingRoom({ selectedUser }) {
       {/* Header */}
       <div className="p-4 border-b bg-white shadow-sm sticky top-0 z-10">
         <h2 className="text-xl font-semibold text-gray-800">
-          Chat with {selectedUser?.email || "User"}
+          Chat with {selectedUser?.role || "User"}
         </h2>
       </div>
 
