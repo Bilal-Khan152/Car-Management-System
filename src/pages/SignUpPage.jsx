@@ -6,6 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 function SignUpPage() {
+  const [userName , setUserName] = useState("") ;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
@@ -19,13 +20,13 @@ function SignUpPage() {
     e.preventDefault();
 
     // Simple validation
-    if (!email || !password || !role) {
+    if (!email || !password || !role || !userName) {
       toast.warning("Please fill in all fields.");
       return;
     }
 
     setIsSubmitting(true);
-    await firebase.signUpUser(email, password, role);
+    await firebase.signUpUser(userName  ,email, password, role);
   };
 
   useEffect(() => {
@@ -52,6 +53,8 @@ function SignUpPage() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <Form
+          setUserName={setUserName}
+          userName = {userName}
             email={email}
             password={password}
             role={role}
