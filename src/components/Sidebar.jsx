@@ -4,6 +4,7 @@ import { User2 } from 'lucide-react';
 
 function Sidebar({ setSelectedUser }) {
     const [users, setUsers] = useState([]) ;
+    // console.log(users)
     const [activeUserUID, setActiveUserUID] = useState(null) ; 
     const firebase = useFirebase() ;
 

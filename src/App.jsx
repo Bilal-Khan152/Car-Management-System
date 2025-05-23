@@ -22,22 +22,28 @@ import "./App.css";
 
 
 function App() {
-  const [notifications, setNotications] = useState([]);
+  const [notifications, setNotications] = useState([]) ;
 
-  const firebase = useFirebase();
+  const firebase = useFirebase() ;
+
+ // console.log(firebase.user.uid)
 
   useEffect(() => {
-    const getNotifications = async () => {
-      try {
-        const data = await firebase.fetchNotifications();
-        setNotications(data);
-      } catch (error) {
-        console.log("error fetching notifications", error);
-      }
-    };
+  if (!firebase.user) return;
 
-    getNotifications();
-  }, []);
+  const getNotifications = async () => {
+    try {
+      const unread = await firebase.fetchNotifications(firebase.user.uid);
+      setNotications(unread);
+    } catch (error) {
+      console.log("error fetching notifications", error);
+    }
+  };
+
+  getNotifications();
+}, [firebase.user]);
+
+
 
   return (
     <>
@@ -149,6 +155,7 @@ function App() {
         />
 
       </Routes>
+
     </>
   );
 }

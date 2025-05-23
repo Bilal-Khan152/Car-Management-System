@@ -10,20 +10,21 @@ import {
 
 } from "firebase/auth";
 import {
-  getFirestore,
-  doc,
-  setDoc,
-  addDoc,
-  collection,
-  getDocs,
-  getDoc,
-  query,
-  where,
-  updateDoc,
-  Timestamp,
-  orderBy,
-  onSnapshot,
-  serverTimestamp
+  getFirestore ,
+  doc , 
+  setDoc ,
+  addDoc ,
+  collection ,
+  getDocs ,
+  getDoc ,
+  query ,
+  where ,
+  updateDoc ,
+  Timestamp ,
+  orderBy ,
+  onSnapshot ,
+  serverTimestamp ,
+  arrayUnion 
 
 } from "firebase/firestore";
 
@@ -49,48 +50,58 @@ export const db = getFirestore(app);
 
 export const FirebaseProvider = (props) => {
 
-  const [user, setUser] = useState(null);
-  const [role, setRole] = useState(null);
+  const [user, setUser] = useState(null) ;
+  const [role, setRole] = useState(null) ;
+  const [isLoading, setIsLoading] = useState(true) ;
 
-    // console.log(role)
-    // console.log(user)
-    console.log("Current UID:", user?.uid);
-
-
-
+    //  console.log(role)
+    //  console.log(user)
+    //  console.log("Current UID:", user?.uid);
 
 
 
+
+
+  // saved user role in local storage and in state
   useEffect(() => {
-    const savedRole = localStorage.getItem("userRole");
-    if (savedRole) {
-      setRole(savedRole); // Restore role from localStorage if present
-    }
+  const savedRole = localStorage.getItem("userRole");
+  if (savedRole) {
+    setRole(savedRole);
+  }
 
+  const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
+    if (user) {
+      setUser(user);
 
-    // track the user 
-    onAuthStateChanged(firebaseAuth, async (user) => {
-      if (user) {
-        setUser(user);
-        // Check if the role exists in Firestore or localStorage and set it
+      try {
         const userDocRef = doc(db, "users", user.uid);
         const userDocSnap = await getDoc(userDocRef);
 
         if (userDocSnap.exists()) {
           const userRole = userDocSnap.data().role;
           setRole(userRole);
-          localStorage.setItem("userRole", userRole); // Update localStorage with role
+          localStorage.setItem("userRole", userRole);
         }
-      } else {
-        setUser(null);
-        setRole(null);
-        localStorage.removeItem("userRole"); // Remove role from localStorage when logged out
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+      } finally {
+        setIsLoading(false); //  Done loading even if error occurs
       }
-    });
-  }, []);
+
+    } else {
+      setUser(null);
+      setRole(null);
+      localStorage.removeItem("userRole");
+      setIsLoading(false); // ✅ Done loading for logged out users
+    }
+  });
+
+  return () => unsubscribe();
+}, []);
 
 
-  // register new users
+
+  // register new users and create users collection firestore and save the user data
   const signUpUser = async (email, password, role) => {
     try {
       const userCredentials = await createUserWithEmailAndPassword(
@@ -117,7 +128,6 @@ export const FirebaseProvider = (props) => {
       console.log("Error", error);
     }
   };
-
 
   // existing users
   const signInUser = async (email, password) => {
@@ -148,7 +158,6 @@ export const FirebaseProvider = (props) => {
     }
   };
 
-
   // logout
   const signOutUser = async () => {
 
@@ -163,7 +172,6 @@ export const FirebaseProvider = (props) => {
   }
 
   // to store admin car details in firestore
-
   const storedCarDetail = async (carName, description, carModal, price) => {
     return await addDoc(collection(db, "cars"), {
       carName,
@@ -175,7 +183,6 @@ export const FirebaseProvider = (props) => {
   };
 
   // to store renter car details in firestore
-
   const storedRenterCarDetails = async (carName, description, price, carModal) => {
     return await addDoc(collection(db, "renter"), {
       carName,
@@ -188,7 +195,6 @@ export const FirebaseProvider = (props) => {
   };
 
   // to get all the Rentercards
-
   const getRenterCards = async () => {
 
     const renterRef = (collection(db, "renter"));
@@ -217,8 +223,6 @@ export const FirebaseProvider = (props) => {
     return result;
   }
 
-
-
   // to get accepted car from admin which is post by renter   
   const getAcceptedRenterCards = async () => {
     const renterRef = collection(db, "renter");
@@ -227,39 +231,47 @@ export const FirebaseProvider = (props) => {
     return snapshot;
   };
 
-
-
   //  get the notification from notification collection which assign to admin
-  const fetchNotifications = async () => {
-    // Get user role from localStorage
-    const userRole = localStorage.getItem('userRole');
+   const fetchNotifications = async (userId) => {
+  const userRole = localStorage.getItem('userRole');
 
-    if (!userRole) {
-      console.error("User role not found in localStorage");
-      return;
-    }
+  if (!userRole) {
+    console.error("User role not found in localStorage");
+    return [];
+  }
 
-    try {
-      const q = query(
-        collection(db, "notifications"),
-        where("toRoles", "array-contains", userRole) // Role dynamically fetched
-      );
+  try {
+    const q = query(
+      collection(db, "notifications"),
+      where("toRoles", "array-contains", userRole),
+      // orderBy("createdAt", "desc")
+    );
 
-      const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(q);
 
-      const notifications = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+    const notifications = querySnapshot.docs
+      .map(doc => ({ id: doc.id, ...doc.data() }))
+      .filter(notification => !notification.readBy?.includes(userId)); // Only unread for this user
 
-      //  console.log(notifications);
-      return notifications;
-    } catch (error) {
-      console.error("Error fetching notifications: ", error);
-      return [];
-    }
-  };
+    return notifications;
+  } catch (error) {
+    console.error("Error fetching notifications: ", error);
+    return [];
+  }
+};
 
+
+  // function to change the read property   ( mark as read button ) 
+  const markNotificationAsRead = async (notificationId, userId) => {
+  try {
+    const notifRef = doc(db, "notifications", notificationId);
+    await updateDoc(notifRef, {
+      readBy: arrayUnion(userId), // adds userId to readBy array
+    });
+  } catch (error) {
+    console.error("Error marking notification as read:", error);
+  }
+};
 
   // accept renter post and change their status from pending to accept
   const acceptRenterRequest = async (createdAtDate) => {
@@ -277,7 +289,7 @@ export const FirebaseProvider = (props) => {
   };
 
 
-  // fetch all user from user collection except current user 
+  // fetch all user from users collection except current user 
   const fetchAllUsersFromUserCollectionExceptCurrentUser = async (targetRole ) => {
     if(!user) return [] ;
 
@@ -361,18 +373,14 @@ return onSnapshot( q , (sanpshot) => {
 
  } 
 
-  
-  
-
-
-
-  const isLoggedIn = user ? true : false;
+ const isLoggedIn = user ? true : false;
 
   return (
     <>
       <FirebaseContext.Provider
         value={{
          fetchAllUsersFromUserCollectionExceptCurrentUser ,
+           
           signUpUser,
           signInUser,
           storedCarDetail,
@@ -381,7 +389,7 @@ return onSnapshot( q , (sanpshot) => {
           getCarCardData,         
           getRenterCards,
           signOutUser,
-          fetchNotifications,
+           fetchNotifications ,
           acceptRenterRequest,
           getAcceptedRenterCards,
           getCarsCardDataById,
@@ -389,7 +397,9 @@ return onSnapshot( q , (sanpshot) => {
           createOrFetchChat , 
           listenToMessages ,
           generateCustomChatId ,
-          sendMessage  ,
+          markNotificationAsRead  , 
+          sendMessage  , 
+           isLoading , 
            user , 
            role,
         }}

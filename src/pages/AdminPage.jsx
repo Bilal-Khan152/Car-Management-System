@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
-import Modal from "../components/Modal";
-import CarsCard from "../components/CarsCard";
+import { saveNotification } from "../utils/saveNotification";
 import { useFirebase } from "../context/Firebase";
+import CarsCard from "../components/CarsCard";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import Modal from "../components/Modal";
 import car1 from "../assets/car1.jpg";
 import car2 from "../assets/car2.webp";
 import car3 from "../assets/car3.jpg";
 import car4 from "../assets/car4.jpg";
 import car5 from "../assets/car5.jpg";
 import car6 from "../assets/car6.jpg";
-import { saveNotification } from "../utils/saveNotification";
-import { toast } from "react-toastify";
+
+
 
 function AdminPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -115,35 +117,37 @@ function AdminPage() {
           );
         })}
       </div>
-      {totalPages > 1 && (
-        <div className="flex justify-center mt-6 mb-6 space-x-4">
-          <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-            className={`px-5 py-2 rounded-full font-semibold transition duration-300 cursor-pointer shadow-md ${currentPage === 1
-                ? "bg-gray-400 text-white cursor-not-allowed"
-                : "bg-indigo-600 text-white hover:bg-indigo-700"
-              }`}
-          >
-            Previous
-          </button>
+       {totalPages > 1 && (
+  <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-6 mb-6">
+    <button
+      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+      disabled={currentPage === 1}
+      className={`px-4 py-1.5 sm:px-5 sm:py-2 rounded-full font-semibold text-sm sm:text-base transition duration-300 cursor-pointer shadow-md ${
+        currentPage === 1
+          ? "bg-gray-400 text-white cursor-not-allowed"
+          : "bg-indigo-600 text-white hover:bg-indigo-700"
+      }`}
+    >
+      Previous
+    </button>
 
-          <span className="px-5 py-2 bg-white text-gray-800 font-medium rounded-full shadow-sm">
-            Page {currentPage} of {totalPages}
-          </span>
+    <span className="px-4 py-1.5 sm:px-5 sm:py-2 bg-white text-gray-800 font-medium text-sm sm:text-base rounded-full shadow-sm">
+      Page {currentPage} of {totalPages}
+    </span>
 
-          <button
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
-            className={`px-5 py-2 rounded-full font-semibold transition duration-300  cursor-pointer shadow-md ${currentPage === totalPages
-                ? "bg-gray-400 text-white cursor-not-allowed"
-                : "bg-indigo-600 text-white hover:bg-indigo-700"
-              }`}
-          >
-            Next
-          </button>
-        </div>
-      )}
+    <button
+      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+      disabled={currentPage === totalPages}
+      className={`px-4 py-1.5 sm:px-5 sm:py-2 rounded-full font-semibold text-sm sm:text-base transition duration-300 cursor-pointer shadow-md ${
+        currentPage === totalPages
+          ? "bg-gray-400 text-white cursor-not-allowed"
+          : "bg-indigo-600 text-white hover:bg-indigo-700"
+      }`}
+    >
+      Next
+    </button>
+  </div>
+)}
 
 
     </div>

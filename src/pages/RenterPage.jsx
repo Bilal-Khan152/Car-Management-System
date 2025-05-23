@@ -14,7 +14,7 @@ import car6 from "../assets/car6.jpg";
 
 function RenterPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
- const [carsData , setCarsdata] = useState([]) ;
+  const [carsData , setCarsdata] = useState([]) ;
   const [carName, setCarName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -75,49 +75,57 @@ function RenterPage() {
     }
   };
 
-
-  return (
-    <div className="bg-slate-600 w-full min-h-screen flex flex-col items-center custom-Background">
-      <div className="w-full flex justify-center pt-8">
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="cursor-pointer bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600 transition duration-300 shadow-lg"
-        >
-          Add Post
-        </button>
-      </div>
-      
-      <div className="text-center flex flex-wrap gap-2 py-2 justify-between text-white text-2xl font-semibold mt-8">
-        {carsData.length === 0
-          ? "There are no car accepted from Admin yet."
-          : carsData.map((car , index)=>{
-            const images = [car1, car2, car3, car4, car5, car6] ;
-            return(
-              < RentalsCars carName={car.carName} carModal={car.carModal} description={car.description} price={car.price} imageUrl={images[index % images.length]}/>
-            )
-          })}
-      </div>
-
-      {/* Modal/Popup */}
-      <ModalForRenter
-        isModalOpen={isModalOpen}
-        carName={carName}
-        setCarName={setCarName}
-        setDescription={setDescription}
-        description={description}
-        price={price}
-        setPrice={setPrice}
-        setIsModalOpen={setIsModalOpen}
-        handleOnSubmit={handleOnSubmit}
-        modal={carModal}
-        setCarModal={setCarModal}
-      />
-
-       
-
-
+ return (
+  <div className="bg-slate-600 w-full min-h-screen flex flex-col items-center custom-Background">
+    <div className="w-full flex justify-center pt-4 sm:pt-8 px-4">
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="cursor-pointer bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600 transition duration-300 shadow-lg text-sm sm:text-base"
+      >
+        Add Post
+      </button>
     </div>
-  );
+    
+    <div className="w-full px-4 sm:px-6 py-4">
+      {carsData.length === 0 ? (
+        <p className="text-center text-white text-lg sm:text-2xl font-semibold mt-4 sm:mt-8">
+          There are no car accepted from Admin yet.
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          {carsData.map((car, index) => {
+            const images = [car1, car2, car3, car4, car5, car6];
+            return (
+              <RentalsCars 
+                key={car.id}
+                carName={car.carName} 
+                carModal={car.carModal} 
+                description={car.description} 
+                price={car.price} 
+                imageUrl={images[index % images.length]}
+              />
+            );
+          })}
+        </div>
+      )}
+    </div>
+
+    {/* Modal/Popup */}
+    <ModalForRenter
+      isModalOpen={isModalOpen}
+      carName={carName}
+      setCarName={setCarName}
+      setDescription={setDescription}
+      description={description}
+      price={price}
+      setPrice={setPrice}
+      setIsModalOpen={setIsModalOpen}
+      handleOnSubmit={handleOnSubmit}
+      modal={carModal}
+      setCarModal={setCarModal}
+    />
+  </div>
+);
 }
 
 export default RenterPage;

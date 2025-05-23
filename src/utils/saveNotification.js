@@ -22,7 +22,7 @@ export const saveNotification = async ({
             fromRole,
             toRoles,
             type,
-            read: false,
+            readBy: [] ,
             createdAt: serverTimestamp(),
             date : new Date().toDateString()
 
