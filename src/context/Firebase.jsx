@@ -102,7 +102,7 @@ export const FirebaseProvider = (props) => {
 
 
   // register new users and create users collection firestore and save the user data
-  const signUpUser = async (email, password, role) => {
+  const signUpUser = async (userName , email, password, role) => {
     try {
       const userCredentials = await createUserWithEmailAndPassword(
         firebaseAuth,
@@ -111,12 +111,13 @@ export const FirebaseProvider = (props) => {
       );
       const user = userCredentials.user;
 
-      console.log("user role", role);
+     // console.log("user role", role);
 
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         email: user.email,
         role: role,
+        userName : userName ,
         createdAt: new Date(),
       });
 
@@ -379,8 +380,7 @@ return onSnapshot( q , (sanpshot) => {
     <>
       <FirebaseContext.Provider
         value={{
-         fetchAllUsersFromUserCollectionExceptCurrentUser ,
-           
+         fetchAllUsersFromUserCollectionExceptCurrentUser ,           
           signUpUser,
           signInUser,
           storedCarDetail,
@@ -389,7 +389,7 @@ return onSnapshot( q , (sanpshot) => {
           getCarCardData,         
           getRenterCards,
           signOutUser,
-           fetchNotifications ,
+          fetchNotifications ,
           acceptRenterRequest,
           getAcceptedRenterCards,
           getCarsCardDataById,
