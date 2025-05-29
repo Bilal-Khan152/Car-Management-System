@@ -42,7 +42,6 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 
 // custom  hook
-
 export const useFirebase = () => useContext(FirebaseContext);
 
 const firebaseAuth = getAuth(app);
@@ -121,7 +120,7 @@ export const FirebaseProvider = (props) => {
         createdAt: new Date(),
       });
 
-      // 🔥 Add this to fetch and set the role in context
+      //   Add this to fetch and set the role in context
       setRole(role);
       localStorage.setItem("userRole", role);
 

@@ -1,4 +1,4 @@
- import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Form from "../components/Form";
 import { useFirebase } from "../context/Firebase";
 import { useNavigate } from "react-router-dom";
@@ -6,11 +6,10 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 function SignUpPage() {
-  const [userName , setUserName] = useState("") ;
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
@@ -26,7 +25,7 @@ function SignUpPage() {
     }
 
     setIsSubmitting(true);
-    await firebase.signUpUser(userName  ,email, password, role);
+    await firebase.signUpUser(userName, email, password, role);
   };
 
   useEffect(() => {
@@ -42,19 +41,22 @@ function SignUpPage() {
   }, [isSubmitting, firebase.role, navigate]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 ">
+    <div className="min-h-screen w-full bg-gradient-to-br from-indigo-100 via-white to-indigo-50 flex items-center justify-center pt-16">
       <ToastContainer />
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          User Registration
-        </h2>
-      </div>
+      <div className="w-full max-w-md px-4 py-8 sm:px-0 mx-auto">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+            Create Account
+          </h2>
+          <p className="mt-2 text-gray-600">
+            Join us and start your journey
+          </p>
+        </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="bg-white rounded-xl shadow-xl p-8">
           <Form
-          setUserName={setUserName}
-          userName = {userName}
+            setUserName={setUserName}
+            userName={userName}
             email={email}
             password={password}
             role={role}

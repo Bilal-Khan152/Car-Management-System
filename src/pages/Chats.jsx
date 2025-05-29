@@ -7,21 +7,15 @@ function Chats() {
 
   
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      {/* Sidebar - full width on mobile, fixed width on desktop */}
-      <div className="w-full md:w-[320px] border-r">
+    <div className="flex h-screen w-full">
+      {/* Sidebar */}
+      <div className="w-full md:w-[350px] border-r border-gray-200">
         <Sidebar setSelectedUser={setSelectedUser} />
       </div>
 
-      {/* Chatting Room - full width on mobile, flex-grow on desktop */}
-      <div className="flex-1">
-        {selectedUser ? (
-          <ChattingRoom selectedUser={selectedUser} />
-        ) : (
-          <div className="h-full flex items-center justify-center text-gray-500 italic">
-            Select a user to start chatting
-          </div>
-        )}
+      {/* Chatting Room */}
+      <div className="flex-1 overflow-hidden">
+        <ChattingRoom selectedUser={selectedUser} />
       </div>
     </div>
   );
