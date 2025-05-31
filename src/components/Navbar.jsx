@@ -61,8 +61,11 @@ function Navbar({ notifications }) {
             <li>
               <Link to="/chatting" className="hover:bg-blue-700 px-3 py-1.5 rounded transition-colors">Chats</Link>
             </li>
+             <li>
+              <Link to="/profilePage" className=" px-3 py-1.5 rounded transition-colors">Profile Page</Link>
+            </li>
             <li>
-              <Link to="/notification" className=" px-3 py-1.5 rounded transition-colors">{renderBellIcon()}</Link>
+              <Link to="/notification" className=" px-3 py-1.5  rounded transition-colors">{renderBellIcon()}</Link>
             </li>
           </>
         )}
@@ -75,8 +78,11 @@ function Navbar({ notifications }) {
             <li>
               <Link to="/chatting" className="hover:bg-blue-700 px-3 py-1.5 rounded transition-colors">Chats</Link>
             </li>
+              <li>
+              <Link to="/profilePage" className=" px-3 py-1.5 rounded transition-colors">Profile Page</Link>
+            </li>
             <li>
-              <Link to="/notification" className="hover:bg-blue-700 px-3 py-1.5 rounded transition-colors">{renderBellIcon()}</Link>
+              <Link to="/notification" className=" px-3 py-1.5 rounded transition-colors">{renderBellIcon()}</Link>
             </li>
           </>
         )}
@@ -92,8 +98,11 @@ function Navbar({ notifications }) {
             <li>
               <Link to="/chatting" className="hover:bg-blue-700 px-3 py-1.5 rounded transition-colors">Chats</Link>
             </li>
+              <li>
+              <Link to="/profilePage" className=" px-3 py-1.5 rounded transition-colors">Profile Page</Link>
+            </li>
             <li>
-              <Link to="/notification" className="hover:bg-blue-700 px-3 py-1.5 rounded transition-colors">{renderBellIcon()}</Link>
+              <Link to="/notification" className="  px-3 py-1.5  rounded transition-colors">{renderBellIcon()}</Link>
             </li>
           </>
         )}

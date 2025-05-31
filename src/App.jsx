@@ -17,6 +17,7 @@ import CarsForRent from "./pages/CarsForRent";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DetailsOfSellCar from "./pages/DetailsOfSellCar";
 import DetailsOfRentCar from "./pages/DetailsOfRentCar";
+import ProfilePage from "./pages/ProfilePage";
 import Chats from "./pages/Chats";
 import "./App.css";
 
@@ -131,7 +132,7 @@ function App() {
           } 
         />
         
-        {/* notification and chats are common to all roles */}
+        {/* notification , chats and profile page are common to all roles */}
 
         <Route
           path="/notification"
@@ -150,6 +151,15 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["admin", "renter", "purchaser"]}>
                <Chats/>
+            </ProtectedRoute>
+          }
+        />
+         
+           <Route
+          path="/profilePage"
+          element={
+            <ProtectedRoute allowedRoles={["admin", "renter", "purchaser"]}>
+               <ProfilePage/>
             </ProtectedRoute>
           }
         />

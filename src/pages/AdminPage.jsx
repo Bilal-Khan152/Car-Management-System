@@ -69,7 +69,7 @@ function AdminPage() {
   const totalPages = Math.ceil(carsData.length / itemsPerPage);
 
   return (
-    <div className="bg-slate-600 w-full min-h-screen flex flex-col items-center custom-Background">
+    <div className="bg-slate-600 w-full mt-[70px] min-h-screen flex flex-col items-center custom-Background">
       <div className="w-full flex justify-center pt-8">
         <button
           onClick={() => setIsModalOpen(true)}

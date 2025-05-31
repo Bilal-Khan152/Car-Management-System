@@ -55,7 +55,7 @@ export const FirebaseProvider = (props) => {
 
     //  console.log(role)
     //  console.log(user)
-    //  console.log("Current UID:", user?.uid);
+    // console.log("Current UID:", user?.uid);
 
 
 
@@ -373,13 +373,42 @@ return onSnapshot( q , (sanpshot) => {
 
  } 
 
+// fetch the current user details from firestore (user collection)
+
+const getCurrentUserDetailsFromFirestore = async () => {
+  try {
+    const userRef = doc(db , "users" , user?.uid ) ; 
+    const userSnap = await getDoc(userRef) ; 
+    console.log(userSnap.data()) ; 
+    
+    
+    if (userSnap.exists()) {
+      return userSnap.data() ; // user details
+      
+    } else {
+      console.warn("No such user document!") ;
+      return null ;
+    }
+
+
+  } catch (error) {
+    console.log("Error getting user data : " , error) ;
+    return null ; 
+  }
+}
+  
+
+
+
+
  const isLoggedIn = user ? true : false;
 
   return (
     <>
       <FirebaseContext.Provider
         value={{
-         fetchAllUsersFromUserCollectionExceptCurrentUser ,           
+         fetchAllUsersFromUserCollectionExceptCurrentUser ,  
+          getCurrentUserDetailsFromFirestore  ,          
           signUpUser,
           signInUser,
           storedCarDetail,
