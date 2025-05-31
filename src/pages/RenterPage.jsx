@@ -76,7 +76,7 @@ function RenterPage() {
   };
 
  return (
-  <div className="bg-slate-600 w-full min-h-screen flex flex-col items-center custom-Background">
+  <div className="bg-slate-600 w-full mt-[70px] min-h-screen flex flex-col items-center custom-Background">
     <div className="w-full flex justify-center pt-4 sm:pt-8 px-4">
       <button
         onClick={() => setIsModalOpen(true)}

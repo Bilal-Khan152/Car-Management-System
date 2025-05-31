@@ -6,13 +6,11 @@ import car4 from "../assets/car4.jpg";
 import car5 from "../assets/car5.jpg";
 import car6 from "../assets/car6.jpg";
 import CarsCardForRenter from "../components/CarsCardForRenter";
-
 import { useFirebase } from "../context/Firebase";
+import { FaCarSide } from "react-icons/fa";
 
 function ManageRenterListing() {
   const [carsData, setCarsData] = useState([]);
-  console.log(carsData)
-
   const firebase = useFirebase();
 
   const fetchCars = async () => {
@@ -40,30 +38,44 @@ function ManageRenterListing() {
     }
   };
 
-  return (
-    <>
-      {carsData.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10 px-6">
-          {carsData.map((car, index) => {
-            const images = [car1, car2, car3, car4, car5, car6];
-
-            return (
-              <CarsCardForRenter
-                key={car.id}
-                carName={car.carName}
-                desc={car.description}
-                imageUrl={images[index % images.length]}
-                price={car.price}
-                createdAt={car.createdAt?.toDate?.()}
-                onAccept={() => handleAccept(car.createdAt?.toDate?.())}
-              />
-            );
-          })}
+  if (carsData.length === 0) {
+    return (
+      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4">
+        <div className="text-center">
+          <div className="flex justify-center">
+            <FaCarSide className="text-6xl text-gray-300 mb-4" />
+          </div>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+            No Cars Available
+          </h2>
+          <p className="text-gray-500 max-w-md">
+            There are no car listings from renters yet. Check back later for new listings.
+          </p>
         </div>
-      ) : (
-        <p className="text-2xl text-center mt-20">There are no car posted from renter yet.</p>
-      )}
-    </>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-[calc(100vh-4rem)] py-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6">
+        {carsData.map((car, index) => {
+          const images = [car1, car2, car3, car4, car5, car6];
+
+          return (
+            <CarsCardForRenter
+              key={car.id}
+              carName={car.carName}
+              desc={car.description}
+              imageUrl={images[index % images.length]}
+              price={car.price}
+              createdAt={car.createdAt?.toDate?.()}
+              onAccept={() => handleAccept(car.createdAt?.toDate?.())}
+            />
+          );
+        })}
+      </div>
+    </div>
   );
 }
 

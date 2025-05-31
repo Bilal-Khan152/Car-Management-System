@@ -1,16 +1,16 @@
- import React from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Form({ password, email, handleOnSubmit, setEmail, setPassword }) {
   const navigate = useNavigate();
 
   return (
-    <form className="space-y-4 sm:space-y-6" onSubmit={handleOnSubmit}>
+    <form className="space-y-6" onSubmit={handleOnSubmit}>
       <div>
-        <label htmlFor="email" className="block text-sm sm:text-base font-medium text-gray-700">
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
           Email address
         </label>
-        <div className="mt-1">
+        <div className="mt-1 relative">
           <input
             id="email"
             name="email"
@@ -18,17 +18,18 @@ function Form({ password, email, handleOnSubmit, setEmail, setPassword }) {
             autoComplete="email"
             required
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}
-            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
+            onChange={(e) => setEmail(e.target.value)}
+            className="block w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-150 ease-in-out text-gray-900 placeholder-gray-400"
+            placeholder="Enter your email"
           />
         </div>
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm sm:text-base font-medium text-gray-700">
+        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
           Password
         </label>
-        <div className="mt-1">
+        <div className="mt-1 relative">
           <input
             id="password"
             name="password"
@@ -36,21 +37,29 @@ function Form({ password, email, handleOnSubmit, setEmail, setPassword }) {
             autoComplete="current-password"
             required
             value={password}
-            onChange={(e)=>setPassword(e.target.value)}
-            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
+            onChange={(e) => setPassword(e.target.value)}
+            className="block w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-150 ease-in-out text-gray-900 placeholder-gray-400"
+            placeholder="Enter your password"
           />
         </div>
       </div>
 
-      <div>
+      <div className="space-y-4">
         <button
           type="submit"
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm sm:text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
         >
-          Login
+          Sign in
         </button>
-        <p className='text-sm sm:text-base font-semibold cursor-pointer mt-2 sm:mt-3 text-center' onClick={()=>navigate("/signUp")}>
-          Create an account?
+        <p className="text-center">
+          <span className="text-sm text-gray-600">Don't have an account? </span>
+          <button
+            type="button"
+            onClick={() => navigate("/signUp")}
+            className="text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none"
+          >
+            Sign up
+          </button>
         </p>
       </div>
     </form>
